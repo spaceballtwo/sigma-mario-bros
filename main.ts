@@ -9,11 +9,14 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {
     tiles.setCurrentTilemap(tilemap`level3`)
+    tiles.placeOnTile(mySprite, tiles.getTileLocation(4, 60))
+    info.startCountdown(200)
+    level = 2
 })
 info.onCountdownEnd(function () {
-    game.gameOver(true)
+	
 })
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
+info.onLifeZero(function () {
     game.gameOver(false)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`transparency16`, function (sprite, location) {
@@ -22,6 +25,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`transparency16`, function (sp
     }
 })
 let jumping = 0
+let level = 0
 let mySprite: Sprite = null
 mySprite = sprites.create(img`
     . . . . . . e . . . . . . . . . 
@@ -48,6 +52,8 @@ controller.moveSprite(mySprite, 100, 0)
 scene.cameraFollowSprite(mySprite)
 game.showLongText("use wasd to move", DialogLayout.Top)
 info.startCountdown(300)
+info.setLife(3)
+level = 1
 forever(function () {
     if (jumping == 1) {
         mySprite.setVelocity(0, -50)
@@ -68,7 +74,19 @@ forever(function () {
         if (controller.A.isPressed()) {
             jumping = 0
         }
-    } else {
-    	
     }
+    if (mySprite.tileKindAt(TileDirection.Bottom, assets.tile`myTile2`)) {
+        info.changeLifeBy(-1)
+        if (level == 1) {
+            tiles.setCurrentTilemap(tilemap`level2`)
+            tiles.placeOnTile(mySprite, tiles.getTileLocation(2, 12))
+        }
+        if (level == 2) {
+            tiles.setCurrentTilemap(tilemap`level3`)
+            tiles.placeOnTile(mySprite, tiles.getTileLocation(4, 60))
+        }
+    }
+})
+forever(function () {
+	
 })
