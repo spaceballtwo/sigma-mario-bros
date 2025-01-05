@@ -1,6 +1,13 @@
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, location) {
     mySprite.setVelocity(0, 0)
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, location) {
+    tiles.setCurrentTilemap(tilemap`level2`)
+    tiles.placeOnTile(mySprite, tiles.getTileLocation(2, 12))
+    info.startCountdown(300)
+    level = 1
+    info.changeLifeBy(1)
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, location) {
     mySprite.setVelocity(0, 0)
 })
@@ -12,9 +19,20 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, l
     tiles.placeOnTile(mySprite, tiles.getTileLocation(4, 60))
     info.startCountdown(200)
     level = 2
+    info.changeLifeBy(1)
 })
 info.onCountdownEnd(function () {
-	
+    if (mySprite.tileKindAt(TileDirection.Bottom, assets.tile`myTile2`)) {
+        info.changeLifeBy(-1)
+        if (level == 1) {
+            tiles.setCurrentTilemap(tilemap`level2`)
+            tiles.placeOnTile(mySprite, tiles.getTileLocation(2, 12))
+        }
+        if (level == 2) {
+            tiles.setCurrentTilemap(tilemap`level3`)
+            tiles.placeOnTile(mySprite, tiles.getTileLocation(4, 60))
+        }
+    }
 })
 info.onLifeZero(function () {
     game.gameOver(false)
