@@ -30,10 +30,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, l
     statusbar = statusbars.create(20, 4, StatusBarKind.Health)
     statusbar.attachToSprite(mysprite2)
     statusbar.value = 100
-    statusbar.max = 5
-    if (mysprite2.overlapsWith(projectile)) {
-        statusbar.value += 50
-    }
+    statusbar.max = 100
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     projectile = sprites.createProjectileFromSprite(img`
@@ -154,10 +151,13 @@ forever(function () {
             tiles.placeOnTile(mySprite, tiles.getTileLocation(4, 60))
             info.startCountdown(200)
         }
-        if (level == 3) {
-            tiles.setCurrentTilemap(tilemap`level8`)
-            tiles.placeOnTile(mySprite, tiles.getTileLocation(2, 12))
-            info.startCountdown(300)
-        }
+    }
+    if (level == 3) {
+        tiles.setCurrentTilemap(tilemap`level8`)
+        tiles.placeOnTile(mySprite, tiles.getTileLocation(2, 12))
+        info.startCountdown(300)
+    }
+    if (mysprite2 && (projectile && mysprite2.overlapsWith(projectile))) {
+        statusbar.value += -50
     }
 })
