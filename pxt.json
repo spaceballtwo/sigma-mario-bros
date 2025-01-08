@@ -2,7 +2,13 @@
     "name": "sigma mario bros",
     "description": "",
     "dependencies": {
-        "device": "*"
+        "device": "*",
+        "arcade-minimap": "github:microsoft/arcade-minimap#v0.6.1",
+        "pxt-status-bar": "github:jwunderl/pxt-status-bar#v0.4.2",
+        "controller": "*",
+        "sevenseg": "*",
+        "settings-blocks": "github:microsoft/pxt-settings-blocks#v1.0.0",
+        "multiplayer": "*"
     },
     "files": [
         "main.blocks",
